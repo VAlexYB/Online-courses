@@ -1,0 +1,55 @@
+﻿@using Online_courses_CourseP_.Areas.Admin.Models
+@model CourseViewModel
+@{
+    string strTitle = "Редактировать запись";
+    ViewBag.Title = strTitle;
+}
+
+
+
+<div>
+    <h2>@strTitle</h2>
+    <div>
+        <form asp-area="Admin" asp-controller="Course" asp-action="Edit" method="post" enctype="multipart/form-data">
+            <div class="div-box">
+                <label asp-for="Name">Название</label>
+                <input asp-for="Name" />
+                <span asp-validation-for="Name" ></span>
+            </div>
+
+
+            <div class="div-box">
+                <label asp-for="Skill">Умение</label>
+                <input asp-for="Skill" />
+                <span asp-validation-for="Skill"></span>
+            </div>
+
+            <div class="div-box">
+                <label asp-for="Price">Цена</label>
+                <input asp-for="Price" />
+                <span asp-validation-for="Price"></span>
+            </div>
+
+            <div class="div-box">
+                <label asp-for="Duration"></label>
+                <input asp-for="Duration" />
+                <span asp-validation-for="Duration"></span>
+            </div>
+
+            <div class="div-box">
+                <label asp-for="CategoryId">Id категории</label>
+                @Html.DropDownListFor(m => m.CategoryId, Model.Categories, "Выберите категорию", new { @class = "form-control" })
+            </div>
+
+
+            <div class="div-box">
+                <label asp-for="SkillLevelId">Id уровня навыка</label>
+                @Html.DropDownListFor(m => m.SkillLevelId, Model.SkillLevels, "Выберите уровень навыка", new { @class = "form-control" })
+            </div>
+
+            <button type="submit" >Сохранить</button>
+        </form>
+
+    </div>
+</div>
+

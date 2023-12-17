@@ -1,0 +1,41 @@
+﻿@model IQueryable<Admin>
+@{
+    string strTitle = "Руководство администрированием школы";
+    ViewBag.Title = strTitle;
+}
+
+<div>
+    <h1>@strTitle</h1>
+    <div>
+        <h3>Администраторы курса</h3>
+        <div class="div-box">
+            <a asp-area="AdminArea" asp-controller="Admin" asp-action="Edit" asp-route-id="">Добавить администратора</a>
+        </div>
+        @if (Model.Any())
+        {
+            <div>
+                @foreach (Admin admin in Model)
+                {
+                    <div>
+                        <a asp-area="AdminArea" asp-controller="Admin" asp-action="Edit" asp-route-id="@admin.Id">редактировать</a>
+                        |
+                        <form style="display: inline-block;" id="form-@admin.Id" asp-area="Owner" asp-controller="Admin" asp-action="Delete" method="post">
+                            <input type="hidden" name="id" value="@admin.Id">
+                            <a href="#" onclick="document.getElementById('form-@admin.Id').submit();">удалить</a>
+                        </form>
+                        |
+                        <a asp-area="" asp-controller="Admin" asp-action="Index" asp-route-id="@admin.Id">
+                            @($"{admin.Surname} {admin.Name} {admin.Patronymic}")
+                        </a>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+    <div class="div-box">
+        <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">
+            <input type="submit" value="Выйти" />
+        </form>
+
+    </div>
+</div>
