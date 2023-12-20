@@ -39,5 +39,15 @@ namespace Online_courses_CourseP_.Domain.Repositories.EntityFramework
                 context.Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
             context.SaveChanges();
         }
+
+        public IQueryable<Teacher> GetPagedTeachersAsync(int page, int pageSize)
+        {
+            return context.Teachers.Skip((page - 1) * pageSize).Take(pageSize);
+        }
+
+        public int GetCount()
+        {
+            return context.Teachers.Count();
+        }
     }
 }

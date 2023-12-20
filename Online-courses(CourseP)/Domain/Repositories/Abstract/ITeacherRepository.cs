@@ -9,5 +9,7 @@ namespace Online_courses_CourseP_.Domain.Repositories.Abstract
         public void Save(Teacher entity);
         public void Delete(string id);
         public bool IsExistTeacher(string id);
+        public IQueryable<Teacher> GetPagedTeachersAsync(int page, int pageSize);
+        public int GetCount();
     }
 }

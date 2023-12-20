@@ -9,7 +9,7 @@
     <div>
         <h3>Администраторы курса</h3>
         <div class="div-box">
-            <a asp-area="AdminArea" asp-controller="Admin" asp-action="Edit" asp-route-id="">Добавить администратора</a>
+            <a asp-area="Owner" asp-controller="Admin" asp-action="Edit" asp-route-id="">Добавить администратора</a>
         </div>
         @if (Model.Any())
         {
@@ -17,7 +17,7 @@
                 @foreach (Admin admin in Model)
                 {
                     <div>
-                        <a asp-area="AdminArea" asp-controller="Admin" asp-action="Edit" asp-route-id="@admin.Id">редактировать</a>
+                        <a asp-area="Owner" asp-controller="Admin" asp-action="Edit" asp-route-id="@admin.Id">редактировать</a>
                         |
                         <form style="display: inline-block;" id="form-@admin.Id" asp-area="Owner" asp-controller="Admin" asp-action="Delete" method="post">
                             <input type="hidden" name="id" value="@admin.Id">

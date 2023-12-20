@@ -24,9 +24,7 @@
                             <a href="#" onclick="document.getElementById('form-@course.Id').submit();">удалить</a>
                         </form>
                         |
-                        <a asp-area="" asp-controller="Course" asp-action="Index" asp-route-id="@course.Id">
                             @($"{course.Name} {course.Category}")
-                        </a>
                     </div>
                 }
             </div>
@@ -43,6 +41,16 @@
         </div>
 
         //:TODO добавить редацтирование и удаление (пока идея такая: поиск, который дает выбор или редактировать или удалить)
+
+        <h3>Список тьюторов</h3>
+        <div id="tutorsComponent">
+            @await Component.InvokeAsync("Tutors", new { page = 1, pageSize = 3});
+        </div>
+
+        <h3>Список учителей</h3>
+        <div id="teachersComponent">
+            @await Component.InvokeAsync("Teachers", new { page = 1, pageSize = 3});
+        </div>
 
 
     </div>

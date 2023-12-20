@@ -1,4 +1,5 @@
-﻿using Online_courses_CourseP_.Domain.Repositories.Abstract;
+﻿using Microsoft.AspNetCore.Mvc;
+using Online_courses_CourseP_.Domain.Repositories.Abstract;
 using Online_courses_CourseP_.Domain.SchoolEntities;
 
 namespace Online_courses_CourseP_.Domain.Repositories.EntityFramework
@@ -20,9 +21,19 @@ namespace Online_courses_CourseP_.Domain.Repositories.EntityFramework
             return context.Tutors.FirstOrDefault(t => t.Id == id);
         }
 
+        public int GetCount()
+        {
+            return context.Tutors.Count();
+        }
+
         public IQueryable<Tutor> GetList()
         {
             return context.Tutors;
+        }
+
+        public IQueryable<Tutor> GetPagedTutorsAsync(int page, int pageSize)
+        {
+            return context.Tutors.Skip((page - 1) * pageSize).Take(pageSize);
         }
 
         public bool IsExistTutor(string id)

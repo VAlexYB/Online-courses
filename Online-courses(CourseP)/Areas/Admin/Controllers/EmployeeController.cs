@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Online_courses_CourseP_.Areas.AdminArea.Controllers;
 using Online_courses_CourseP_.Domain.SchoolEntities;
+using Online_courses_CourseP_.Models;
 using Online_courses_CourseP_.Service;
 using System.Drawing;
 
@@ -21,21 +22,6 @@ namespace Online_courses_CourseP_.Areas.Admin.Controllers
             this.userManager = userManager;
             this.mapper = mapper;
         }
-
-        //public async Task<IActionResult> Edit(string id)
-        //{
-        //    Domain.SchoolEntities.Admin admin;
-        //    if (!adminRep.IsExistAdmin(id))
-        //    {
-        //        admin = new Domain.SchoolEntities.Admin();
-        //        await userManager.CreateAsync(admin);
-        //    }
-        //    else
-        //    {
-        //        admin = adminRep.GetByID(id);
-        //    }
-        //    return View(admin);
-        //}
 
         public async Task<IActionResult> EditEmployee(string role, string id)
         {
@@ -79,16 +65,12 @@ namespace Online_courses_CourseP_.Areas.Admin.Controllers
             }
             return teacher;
         }
-
+        [HttpPost]
         public async Task<IActionResult> EditTutor(Tutor model)
         {
             if (ModelState.IsValid)
             {
                 var passwordHasher = new PasswordHasher<IdentityUser>();
-                if (!await userManager.IsInRoleAsync(model, "tutor"))
-                {
-                    await userManager.AddToRoleAsync(model, "tutor");
-                }
                 if (dataManager.TutorRep.IsExistTutor(model.Id))
                 {
                     Domain.SchoolEntities.Tutor existEntity = dataManager.TutorRep.GetByID(model.Id);
@@ -108,20 +90,20 @@ namespace Online_courses_CourseP_.Areas.Admin.Controllers
                     model.SecurityStamp = string.Empty;
                     dataManager.TutorRep.Save(model);
                 }
+                if (!await userManager.IsInRoleAsync(model, "tutor"))
+                {
+                    await userManager.AddToRoleAsync(model, "tutor");
+                }
                 return RedirectToAction(nameof(HomeController.Index), nameof(HomeController).CutController());
             }
             return View(model);
         }
-
+        [HttpPost]
         public async Task<IActionResult> EditTeacher(Teacher model)
         {
             if (ModelState.IsValid)
             {
                 var passwordHasher = new PasswordHasher<IdentityUser>();
-                if (!await userManager.IsInRoleAsync(model, "teacher"))
-                {
-                    await userManager.AddToRoleAsync(model, "teacher");
-                }
                 if (dataManager.TeacherRep.IsExistTeacher(model.Id))
                 {
                     Domain.SchoolEntities.Teacher existEntity = dataManager.TeacherRep.GetByID(model.Id);
@@ -141,19 +123,30 @@ namespace Online_courses_CourseP_.Areas.Admin.Controllers
                     model.SecurityStamp = string.Empty;
                     dataManager.TeacherRep.Save(model);
                 }
+                if (!await userManager.IsInRoleAsync(model, "teacher"))
+                {
+                    await userManager.AddToRoleAsync(model, "teacher");
+                }
                 return RedirectToAction(nameof(HomeController.Index), nameof(HomeController).CutController());
             }
             return View(model);
         }
 
 
-
-
-        //[HttpPost]
-        //public async Task<IActionResult> Delete(string id)
-        //{
-        //    await userManager.DeleteAsync(adminRep.GetByID(id));
-        //    return RedirectToAction(nameof(HomeController.Index), nameof(HomeController).CutController());
-        //}
+        [HttpPost]
+        public async Task<IActionResult> Delete(string role, string id)
+        {
+            if (role == "Tutor")
+            {
+                await userManager.DeleteAsync(dataManager.TutorRep.GetByID(id));
+            }
+            else if (role == "Teacher")
+            {
+                await userManager.DeleteAsync(dataManager.TeacherRep.GetByID(id));
+            }
+            else
+                throw new Exception("Админ не умеет удалять работников кроме тьютора и учителя. Где-то ты ошибся, товарищ");
+            return RedirectToAction(nameof(HomeController.Index), nameof(HomeController).CutController());
+        }
     }
 }

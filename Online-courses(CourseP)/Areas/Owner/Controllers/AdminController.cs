@@ -43,10 +43,6 @@ namespace Online_courses_CourseP_.Areas.Owner.Controllers
             if (ModelState.IsValid)
             {
                 var passwordHasher = new PasswordHasher<IdentityUser>();
-                if (!await userManager.IsInRoleAsync(adminModel, "admin"))
-                {
-                    await userManager.AddToRoleAsync(adminModel, "admin");
-                }
                 if (adminRep.IsExistAdmin(adminModel.Id))
                 {
                     Domain.SchoolEntities.Admin existEntity = adminRep.GetByID(adminModel.Id);
@@ -65,6 +61,10 @@ namespace Online_courses_CourseP_.Areas.Owner.Controllers
                     adminModel.EmailConfirmed = true;
                     adminModel.SecurityStamp = string.Empty;
                     adminRep.Save(adminModel);
+                }
+                if (!await userManager.IsInRoleAsync(adminModel, "admin"))
+                {
+                    await userManager.AddToRoleAsync(adminModel, "admin");
                 }
                 return RedirectToAction(nameof(HomeController.Index), nameof(HomeController).CutController());
             }
