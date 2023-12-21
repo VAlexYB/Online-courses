@@ -13,6 +13,7 @@ namespace Online_courses_CourseP_.Domain.Repositories.EntityFramework
         public void Delete(int id)
         {
             context.Lessons.Remove(new Lesson { Id = id });
+            context.SaveChanges();
         }
 
         public Lesson GetByID(int id)

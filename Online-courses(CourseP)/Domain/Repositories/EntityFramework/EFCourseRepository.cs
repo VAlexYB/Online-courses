@@ -1,4 +1,5 @@
-﻿using Online_courses_CourseP_.Domain.Repositories.Abstract;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Online_courses_CourseP_.Domain.Repositories.Abstract;
 using Online_courses_CourseP_.Domain.SchoolEntities;
 
 namespace Online_courses_CourseP_.Domain.Repositories.EntityFramework
@@ -37,6 +38,11 @@ namespace Online_courses_CourseP_.Domain.Repositories.EntityFramework
         public bool IsExistCourse(int id)
         {
             return context.Courses.Any(course => course.Id == id);
+        }
+
+        public List<SelectListItem> GetSelectListItems()
+        {
+            return context.Courses.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = $"{c.Name} {c.SkillLevel.SkillLevel1}" }).ToList();
         }
     }
 }

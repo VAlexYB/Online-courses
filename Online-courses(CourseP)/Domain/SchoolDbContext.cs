@@ -176,7 +176,7 @@ public partial class SchoolDbContext : IdentityDbContext<IdentityUser, IdentityR
         modelBuilder.Entity<Group>(entity =>
         {
             entity.Property(e => e.Id)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("ID");
             entity.Property(e => e.Beginning).HasColumnType("date");
             entity.Property(e => e.CourseId).HasColumnName("CourseID");
@@ -264,7 +264,7 @@ public partial class SchoolDbContext : IdentityDbContext<IdentityUser, IdentityR
         modelBuilder.Entity<ResponsibilityAgreement>(entity =>
         {
             entity.Property(e => e.Id)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("ID");
             entity.Property(e => e.CourseId).HasColumnName("CourseID");
             entity.Property(e => e.TeacherId).HasColumnName("TeacherID");

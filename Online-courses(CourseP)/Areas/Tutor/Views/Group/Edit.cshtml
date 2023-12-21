@@ -1,0 +1,39 @@
+﻿@using Online_courses_CourseP_.Areas.Tutor.Models
+@model GroupViewModel
+@{
+    string strTitle = "Редактировать запись";
+    ViewBag.Title = strTitle;
+}
+
+
+
+<div>
+    <h2>@strTitle</h2>
+    <div>
+        <form asp-area="Tutor" asp-controller="Group" asp-action="Edit" method="post" enctype="multipart/form-data">
+            <input asp-for="Id" type="hidden" />
+
+            <div class="div-box">
+                <label asp-for="Beginning">Начало обучения</label>
+                <input asp-for="Beginning" />
+                <span asp-validation-for="Beginning"></span>
+            </div>
+
+            <div class="div-box">
+                <label asp-for="Ending">Конец обучения</label>
+                <input asp-for="Ending" />
+                <span asp-validation-for="Ending"></span>
+            </div>
+
+            <div class="div-box">
+                <label asp-for="CourseId">Id курса</label>
+                @Html.DropDownListFor(m => m.CourseId, Model.Courses, "Выберите категорию", new { @class = "form-control" })
+            </div>
+
+
+            <button type="submit">Сохранить</button>
+        </form>
+
+    </div>
+</div>
+

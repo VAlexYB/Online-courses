@@ -12,7 +12,7 @@ using Online_courses_CourseP_.Domain;
 namespace Online_courses_CourseP_.Migrations
 {
     [DbContext(typeof(SchoolDbContext))]
-    [Migration("20231209120226__initial")]
+    [Migration("20231221044740__initial")]
     partial class _initial
     {
         /// <inheritdoc />
@@ -163,13 +163,13 @@ namespace Online_courses_CourseP_.Migrations
                         {
                             Id = "62C64EF0-D03A-4E61-97D3-D05AC21DAD14",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6c32fedb-04b7-4f92-9794-d0e1b71bfe2c",
+                            ConcurrencyStamp = "86b756de-c57b-4e61-9990-d171fd23e9b2",
                             Email = "owner@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "OWNER@EMAIL.COM",
                             NormalizedUserName = "OWNER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEPIhMkfxKgIEfsbjx4ei6kIIWBLF0ayfRpSE0RRMlIYn2qwQ03qlNPZLTIWizqpaWA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKeaLu1bGs+XvuYn79S2lgZwdbngjOPqWc1PY4BEgtxFAeJjtYMAQlyXw341V8TP4A==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -312,6 +312,23 @@ namespace Online_courses_CourseP_.Migrations
                         .IsUnique();
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Компьютерные науки"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Языки"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Социальные"
+                        });
                 });
 
             modelBuilder.Entity("Online_courses_CourseP_.Domain.SchoolEntities.Course", b =>
@@ -371,8 +388,11 @@ namespace Online_courses_CourseP_.Migrations
             modelBuilder.Entity("Online_courses_CourseP_.Domain.SchoolEntities.Group", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("Amount")
                         .HasColumnType("int");
@@ -468,13 +488,38 @@ namespace Online_courses_CourseP_.Migrations
                         .IsUnique();
 
                     b.ToTable("LessonTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            LessonType1 = "Лекция"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            LessonType1 = "Практика"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            LessonType1 = "Лабораторное занятие"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            LessonType1 = "Семинар"
+                        });
                 });
 
             modelBuilder.Entity("Online_courses_CourseP_.Domain.SchoolEntities.ResponsibilityAgreement", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CourseId")
                         .HasColumnType("int")
@@ -516,6 +561,23 @@ namespace Online_courses_CourseP_.Migrations
                         .IsUnique();
 
                     b.ToTable("SkillLevels");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            SkillLevel1 = "Начальный"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            SkillLevel1 = "Продвинутый"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            SkillLevel1 = "Профессиональный"
+                        });
                 });
 
             modelBuilder.Entity("Online_courses_CourseP_.Domain.SchoolEntities.SystemUser", b =>

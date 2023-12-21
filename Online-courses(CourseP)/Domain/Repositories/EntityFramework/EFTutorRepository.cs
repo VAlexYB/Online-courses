@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Online_courses_CourseP_.Domain.Repositories.Abstract;
 using Online_courses_CourseP_.Domain.SchoolEntities;
 
@@ -14,6 +15,7 @@ namespace Online_courses_CourseP_.Domain.Repositories.EntityFramework
         public void Delete(string id)
         {
             context.Tutors.Remove(new Tutor { Id = id});
+            context.SaveChanges();
         }
 
         public Tutor GetByID(string id)

@@ -1,4 +1,5 @@
-﻿using Online_courses_CourseP_.Domain.SchoolEntities;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Online_courses_CourseP_.Domain.SchoolEntities;
 
 namespace Online_courses_CourseP_.Domain.Repositories.Abstract
 {
@@ -11,5 +12,8 @@ namespace Online_courses_CourseP_.Domain.Repositories.Abstract
         public bool IsExistTeacher(string id);
         public IQueryable<Teacher> GetPagedTeachersAsync(int page, int pageSize);
         public int GetCount();
+        public bool AddToResponse(Teacher teacher, Course course);
+        public List<SelectListItem> GetSelectListItems();
+
     }
 }

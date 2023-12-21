@@ -1,4 +1,5 @@
-﻿using Online_courses_CourseP_.Domain.Repositories.Abstract;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Online_courses_CourseP_.Domain.Repositories.Abstract;
 using Online_courses_CourseP_.Domain.SchoolEntities;
 
 namespace Online_courses_CourseP_.Domain.Repositories.EntityFramework
@@ -48,6 +49,32 @@ namespace Online_courses_CourseP_.Domain.Repositories.EntityFramework
         public int GetCount()
         {
             return context.Teachers.Count();
+        }
+
+        public bool AddToResponse(Teacher teacher, Course course)
+        {
+            if(!context.Teachers.Any(t => t.Id == teacher.Id) || !context.Courses.Any(c=>c.Id == course.Id))
+                return false;
+
+            if(context.ResponsibilityAgreements.Any(ra => ra.TeacherId == teacher.Id && ra.CourseId == course.Id))
+                return false;
+
+            var response = new ResponsibilityAgreement
+            {
+                TeacherId = teacher.Id,
+                CourseId = course.Id,
+                Teacher = teacher,
+                Course = course
+            };
+
+            context.ResponsibilityAgreements.Add(response);
+            context.SaveChanges();
+            return true;
+        }
+
+        public List<SelectListItem> GetSelectListItems()
+        {
+            return context.Teachers.Select(t => new SelectListItem { Value = t.Id.ToString(), Text = $"{t.Surname} {t.Name} {t.Patronymic}" }).ToList();
         }
     }
 }

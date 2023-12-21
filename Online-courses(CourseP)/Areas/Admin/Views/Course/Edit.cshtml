@@ -10,7 +10,8 @@
 <div>
     <h2>@strTitle</h2>
     <div>
-        <form asp-area="Admin" asp-controller="Course" asp-action="Edit" method="post" enctype="multipart/form-data">
+        <form asp-area="Admin" asp-controller="Course" asp-action="Edit" method="post" enctype="multipart/form-data">            
+            <input asp-for="Id" type="hidden" />
             <div class="div-box">
                 <label asp-for="Name">Название</label>
                 <input asp-for="Name" />

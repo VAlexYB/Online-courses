@@ -3,6 +3,8 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Online_courses_CourseP_.Migrations
 {
     /// <inheritdoc />
@@ -240,7 +242,8 @@ namespace Online_courses_CourseP_.Migrations
                 name: "Groups",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false),
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Beginning = table.Column<DateTime>(type: "date", nullable: true),
                     Ending = table.Column<DateTime>(type: "date", nullable: true),
                     Amount = table.Column<int>(type: "int", nullable: true),
@@ -266,7 +269,8 @@ namespace Online_courses_CourseP_.Migrations
                 name: "ResponsibilityAgreements",
                 columns: table => new
                 {
-                    ID = table.Column<int>(type: "int", nullable: false),
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     TeacherID = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     CourseID = table.Column<int>(type: "int", nullable: false)
                 },
@@ -355,7 +359,38 @@ namespace Online_courses_CourseP_.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "ID", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "62C64EF0-D03A-4E61-97D3-D05AC21DAD14", 0, "6c32fedb-04b7-4f92-9794-d0e1b71bfe2c", "IdentityUser", "owner@email.com", true, false, null, "OWNER@EMAIL.COM", "OWNER", "AQAAAAIAAYagAAAAEPIhMkfxKgIEfsbjx4ei6kIIWBLF0ayfRpSE0RRMlIYn2qwQ03qlNPZLTIWizqpaWA==", null, false, "", false, "owner" });
+                values: new object[] { "62C64EF0-D03A-4E61-97D3-D05AC21DAD14", 0, "86b756de-c57b-4e61-9990-d171fd23e9b2", "IdentityUser", "owner@email.com", true, false, null, "OWNER@EMAIL.COM", "OWNER", "AQAAAAIAAYagAAAAEKeaLu1bGs+XvuYn79S2lgZwdbngjOPqWc1PY4BEgtxFAeJjtYMAQlyXw341V8TP4A==", null, false, "", false, "owner" });
+
+            migrationBuilder.InsertData(
+                table: "Categories",
+                columns: new[] { "ID", "Name" },
+                values: new object[,]
+                {
+                    { 1, "Компьютерные науки" },
+                    { 2, "Языки" },
+                    { 3, "Социальные" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "LessonTypes",
+                columns: new[] { "ID", "LessonType" },
+                values: new object[,]
+                {
+                    { 1, "Лекция" },
+                    { 2, "Практика" },
+                    { 3, "Лабораторное занятие" },
+                    { 4, "Семинар" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "SkillLevels",
+                columns: new[] { "ID", "SkillLevel" },
+                values: new object[,]
+                {
+                    { 1, "Начальный" },
+                    { 2, "Продвинутый" },
+                    { 3, "Профессиональный" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",

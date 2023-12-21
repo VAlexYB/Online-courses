@@ -4,9 +4,28 @@
     ViewBag.Title = strTitle;
 }
 
+
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["SuccessMessage"]
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
 <div>
-    <h1>@strTitle</h1>
-    <div>
+    <div class="tab">
+        <button class="tablinks" onclick="openTab(event, 'Courses')">Курсы</button>
+        <button class="tablinks" onclick="openTab(event, 'Employees')">Работники школы</button>
+    </div>
+
+    <div id="Courses" class="tabcontent">
         <h3>Курсы</h3>
         <div class="div-box">
             <a asp-area="Admin" asp-controller="Course" asp-action="Edit" asp-route-id="">Добавить курс</a>
@@ -24,11 +43,65 @@
                             <a href="#" onclick="document.getElementById('form-@course.Id').submit();">удалить</a>
                         </form>
                         |
-                            @($"{course.Name} {course.Category}")
+                        @($"{course.Name}")
                     </div>
                 }
             </div>
         }
+
+
+        <h3>Курс и преподаватель</h3>
+        <div class="form-wrapper">
+            <label for="teacherIdSelect">Учитель:</label>
+            @Html.DropDownList("teacherIdSelect", new SelectList(ViewBag.Teachers, "Value", "Text"), "Выберите учителя", new { id = "teacherIdSelect" })
+
+            <label for="courseIdSelect">Курс:</label>
+            @Html.DropDownList("courseIdSelect", new SelectList(ViewBag.Courses, "Value", "Text"), "Выберите курс", new { id = "courseIdSelect" })
+
+            @using (Html.BeginForm("AddTeacherToCourse", "Employee", FormMethod.Post, new { id = "addTeacherForm" }))
+            {
+                <input type="hidden" name="teacherId" id="addFormTeacherId" />
+                <input type="hidden" name="courseId" id="addFormCourseId" />
+                <input type="submit" value="Добавить" />
+            }
+
+            @using (Html.BeginForm("RemoveTeacherFromCourse", "Employee", FormMethod.Post, new { id = "removeTeacherForm" }))
+            {
+                <input type="hidden" name="teacherId" id="removeFormTeacherId" />
+                <input type="hidden" name="courseId" id="removeFormCourseId" />
+                <input type="submit" value="Удалить" />
+            }
+        </div>
+
+        <style>
+            .form-wrapper {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+        </style>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                document.getElementById('addTeacherForm').addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    document.getElementById('addFormTeacherId').value = document.getElementById('teacherIdSelect').value;
+                    document.getElementById('addFormCourseId').value = document.getElementById('courseIdSelect').value;
+                    this.submit();
+                });
+
+                document.getElementById('removeTeacherForm').addEventListener('submit', function (event) {
+                    event.preventDefault();
+                    document.getElementById('removeFormTeacherId').value = document.getElementById('teacherIdSelect').value;
+                    document.getElementById('removeFormCourseId').value = document.getElementById('courseIdSelect').value;
+                    this.submit();
+                });
+            });
+        </script>
+
+    </div>
+
+    <div id="Employees" class="tabcontent">
         <h3>Работники школы</h3>
         <div class="div-box">
             <form asp-area="Admin" asp-controller="Employee" asp-action="EditEmployee" method="post">
@@ -40,7 +113,7 @@
             </form>
         </div>
 
-        //:TODO добавить редацтирование и удаление (пока идея такая: поиск, который дает выбор или редактировать или удалить)
+        @* //:TODO добавить редацтирование и удаление (пока идея такая: поиск, который дает выбор или редактировать или удалить) *@
 
         <h3>Список тьюторов</h3>
         <div id="tutorsComponent">
@@ -51,13 +124,62 @@
         <div id="teachersComponent">
             @await Component.InvokeAsync("Teachers", new { page = 1, pageSize = 3});
         </div>
-
-
     </div>
-    <div class="div-box">
-        <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">
-            <input type="submit" value="Выйти" />
-        </form>
+</div>
 
-    </div>
+<script>
+    function openTab(evt, tabName) {
+        var i, tabcontent, tablinks;
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+            tabcontent[i].style.display = "none";
+        }
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+            tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+        document.getElementById(tabName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+</script>
+
+<style>
+    .tab {
+        overflow: hidden;
+        border: 1px solid #ccc;
+        background-color: #f1f1f1;
+    }
+
+        .tab button {
+            background-color: inherit;
+            float: left;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            padding: 14px 16px;
+            transition: 0.3s;
+        }
+
+            .tab button:hover {
+                background-color: #ddd;
+            }
+
+            .tab button.active {
+                background-color: #ccc;
+            }
+
+    .tabcontent {
+        display: none;
+        padding: 6px 12px;
+        border: 1px solid #ccc;
+        border-top: none;
+    }
+</style>
+
+
+<div class="div-box">
+    <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">
+        <input type="submit" value="Выйти" />
+    </form>
+
 </div>

@@ -160,13 +160,13 @@ namespace Online_courses_CourseP_.Migrations
                         {
                             Id = "62C64EF0-D03A-4E61-97D3-D05AC21DAD14",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "217b808f-5268-404c-9f87-007917450238",
+                            ConcurrencyStamp = "86b756de-c57b-4e61-9990-d171fd23e9b2",
                             Email = "owner@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "OWNER@EMAIL.COM",
                             NormalizedUserName = "OWNER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIIDMErKtU+SNECGDSBqqSyj+sVbHTjuQfScDIXvsGmBmz5pENVQ24AbLPwqpUDncQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEKeaLu1bGs+XvuYn79S2lgZwdbngjOPqWc1PY4BEgtxFAeJjtYMAQlyXw341V8TP4A==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -385,8 +385,11 @@ namespace Online_courses_CourseP_.Migrations
             modelBuilder.Entity("Online_courses_CourseP_.Domain.SchoolEntities.Group", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("Amount")
                         .HasColumnType("int");
@@ -509,8 +512,11 @@ namespace Online_courses_CourseP_.Migrations
             modelBuilder.Entity("Online_courses_CourseP_.Domain.SchoolEntities.ResponsibilityAgreement", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CourseId")
                         .HasColumnType("int")

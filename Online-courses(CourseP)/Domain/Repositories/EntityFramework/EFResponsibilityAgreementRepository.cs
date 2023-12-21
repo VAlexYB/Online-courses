@@ -12,9 +12,18 @@ namespace Online_courses_CourseP_.Domain.Repositories.EntityFramework
         }
         public void Delete(int agreementId)
         {
-            context.ResponsibilityAgreements.Remove(new ResponsibilityAgreement { Id = agreementId });
+            ResponsibilityAgreement agreement = context.ResponsibilityAgreements.Find(agreementId);
+            if(agreement != null)
+            {
+                context.ResponsibilityAgreements.Remove(agreement);
+                context.SaveChanges();
+            }
         }
 
+        public int? FindBySideIds(string teacherId, int courseId)
+        {
+            return context.ResponsibilityAgreements.FirstOrDefault(ra => ra.TeacherId == teacherId && ra.CourseId == courseId)?.Id;
+        }
 
         public IQueryable<Course> GetList(string teacherId)
         {

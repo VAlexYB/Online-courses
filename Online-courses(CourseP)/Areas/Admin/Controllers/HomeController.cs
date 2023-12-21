@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Online_courses_CourseP_.Domain.Repositories.Abstract;
 using Online_courses_CourseP_.Domain.SchoolEntities;
+using System.Security.Claims;
 
 namespace Online_courses_CourseP_.Areas.AdminArea.Controllers
 {
@@ -9,13 +10,20 @@ namespace Online_courses_CourseP_.Areas.AdminArea.Controllers
     public class HomeController : Controller
     {
         private readonly ICourseRepository courseRep;
-        public HomeController(ICourseRepository courseRep)
+        private readonly ITeacherRepository teacherRep;
+
+        public HomeController(ICourseRepository courseRep, ITeacherRepository teacherRep)
         {
             this.courseRep = courseRep;
+            this.teacherRep = teacherRep;
         }
         public IActionResult Index()
         {
-            return View(courseRep.GetList());
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            IQueryable<Course> courses = courseRep.GetList().Where(course => course.AdminId == userId);
+            ViewBag.Teachers = teacherRep.GetSelectListItems();
+            ViewBag.Courses = courseRep.GetSelectListItems();
+            return View(courses);
         }
 
         public IActionResult GetTutorsComponent(int page, int pageSize)
