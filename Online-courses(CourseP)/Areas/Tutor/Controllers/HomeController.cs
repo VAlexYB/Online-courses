@@ -29,5 +29,10 @@ namespace Online_courses_CourseP_.Areas.Tutor.Controllers
         {
             return ViewComponent("Students", new { page = page, pageSize = pageSize });
         }
+
+        public IActionResult GetLessonsComponent(int page, int pageSize)
+        {
+            return ViewComponent("Students", new { page = page, pageSize = pageSize });
+        }
     }
 }

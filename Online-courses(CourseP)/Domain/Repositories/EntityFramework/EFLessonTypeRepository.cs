@@ -1,4 +1,5 @@
-﻿using Online_courses_CourseP_.Domain.Repositories.Abstract;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Online_courses_CourseP_.Domain.Repositories.Abstract;
 using Online_courses_CourseP_.Domain.SchoolEntities;
 
 namespace Online_courses_CourseP_.Domain.Repositories.EntityFramework
@@ -13,6 +14,11 @@ namespace Online_courses_CourseP_.Domain.Repositories.EntityFramework
         public LessonType GetByID(int id)
         {
             return context.LessonTypes.FirstOrDefault(x => x.Id == id);
+        }
+
+        public List<SelectListItem> GetSelectListItems()
+        {
+            return context.LessonTypes.Select(c => new SelectListItem { Value = c.Id.ToString(), Text = c.LessonType1 }).ToList();
         }
     }
 }

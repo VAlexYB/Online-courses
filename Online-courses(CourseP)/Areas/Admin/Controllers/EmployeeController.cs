@@ -53,16 +53,16 @@ namespace Online_courses_CourseP_.Areas.Admin.Controllers
             }
             return tutor;
         }
-        public async Task<Teacher> EditTeacher(string id)
+        public async Task<Domain.SchoolEntities.Teacher> EditTeacher(string id)
         {
-            Teacher teacher;
+            Domain.SchoolEntities.Teacher teacher;
             if (dataManager.TeacherRep.IsExistTeacher(id))
             {
                 teacher = dataManager.TeacherRep.GetByID(id);
             }
             else
             {
-                teacher = new Teacher();
+                teacher = new Domain.SchoolEntities.Teacher();
                 await userManager.CreateAsync(teacher);
             }
             return teacher;
@@ -101,7 +101,7 @@ namespace Online_courses_CourseP_.Areas.Admin.Controllers
             return View(model);
         }
         [HttpPost]
-        public async Task<IActionResult> EditTeacher(Teacher model)
+        public async Task<IActionResult> EditTeacher(Domain.SchoolEntities.Teacher model)
         {
             if (ModelState.IsValid)
             {
@@ -155,7 +155,7 @@ namespace Online_courses_CourseP_.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult AddTeacherToCourse(string teacherId, int courseId)
         {
-            Teacher teacher = dataManager.TeacherRep.GetByID(teacherId);
+            Domain.SchoolEntities.Teacher teacher = dataManager.TeacherRep.GetByID(teacherId);
             Course course = dataManager.CourseRep.GetByID(courseId);
             if (teacher != null && course != null)
             {

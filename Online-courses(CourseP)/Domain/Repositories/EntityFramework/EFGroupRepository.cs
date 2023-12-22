@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Online_courses_CourseP_.Domain.Repositories.Abstract;
 using Online_courses_CourseP_.Domain.SchoolEntities;
+using System.Data.Entity;
 
 namespace Online_courses_CourseP_.Domain.Repositories.EntityFramework
 {
@@ -25,7 +26,7 @@ namespace Online_courses_CourseP_.Domain.Repositories.EntityFramework
 
         public IQueryable<Group> GetList()
         {
-            return context.Groups;
+            return context.Groups.Include(g => g.Course);
         }
 
         public List<SelectListItem> GetSelectListItems()

@@ -85,7 +85,7 @@ namespace Online_courses_CourseP_.Areas.Tutor.Controllers
         [HttpPost]
         public IActionResult AddStudentToGroup(string studentId, int groupId)
         {
-            Student student = studentRep.GetByID(studentId);
+            Domain.SchoolEntities.Student student = studentRep.GetByID(studentId);
             Group group = groupRep.GetByID(groupId);
             if (student != null && group != null)
             {

@@ -43,7 +43,7 @@
                             <a href="#" onclick="document.getElementById('form-@course.Id').submit();">удалить</a>
                         </form>
                         |
-                        @($"{course.Name}")
+                        @($"{course.Name} {course?.SkillLevel?.SkillLevel1}|{course?.Category} ")
                     </div>
                 }
             </div>

@@ -8,6 +8,7 @@
     <div class="tab">
         <button class="tablinks" onclick="openTab(event, 'Groups')">Группы</button>
         <button class="tablinks" onclick="openTab(event, 'Students')">Студенты школы</button>
+        <button class="tablinks" onclick="openTab(event, 'Lessons')">Уроки</button>
     </div>
 
     <div id="Groups" class="tabcontent">
@@ -28,9 +29,7 @@
                             <a href="#" onclick="document.getElementById('form-@group.Id').submit();">удалить</a>
                         </form>
                         |
-                        <a asp-area="" asp-controller="Group" asp-action="Index" asp-route-id="@group.Id">
-                            @($"Группа {group.Id} - {group.Beginning}")
-                        </a>
+                            @($"Группа {group.Id} - ({group.Beginning})")
                     </div>
                 }
             </div>
@@ -95,6 +94,17 @@
         <h3>Список студентов</h3>
         <div id="studentsComponent">
             @await Component.InvokeAsync("Students", new { page = 1, pageSize = 3});
+        </div>
+    </div>
+
+    <div id="Lessons" class="tabcontent">
+        <div class="div-box">
+            <a asp-area="Tutor" asp-controller="Lesson" asp-action="Edit" asp-route-id="">Добавить урок</a>
+        </div>
+
+        <h3>Список уроков</h3>
+        <div id="lessonsComponent">
+            @await Component.InvokeAsync("Lessons", new { page = 1, pageSize = 3});
         </div>
     </div>
     

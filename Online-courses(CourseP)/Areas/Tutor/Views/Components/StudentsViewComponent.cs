@@ -18,7 +18,7 @@ namespace Online_courses_CourseP_.Areas.Tutor.Views.Components
             var totalCount = studentRepository.GetCount();
             var pageViewModel = new PageViewModel(totalCount, page, pageSize);
 
-            return View(new Tuple<IEnumerable<Student>, PageViewModel>(students, pageViewModel));
+            return View(new Tuple<IEnumerable<Domain.SchoolEntities.Student>, PageViewModel>(students, pageViewModel));
         }
     }
 }

@@ -42,7 +42,7 @@ namespace Online_courses_CourseP_
             services.AddScoped<ITutorRepository, EFTutorRepository>();
             services.AddScoped<IAffiliationAgreementRepository, EFAffiliationAgreementRepository>();
             services.AddScoped<DataManager>();
-            services.AddScoped<     _DataManager>();
+            services.AddScoped<_DataManager>();
 
             //подключаем контекст БД
             services.AddDbContext<SchoolDbContext>(x => x.UseSqlServer(Config.ConnectionString));
@@ -75,6 +75,8 @@ namespace Online_courses_CourseP_
                 x.AddPolicy("OwnerArea", policy => { policy.RequireRole("owner"); });
                 x.AddPolicy("AdminArea", policy => { policy.RequireRole("admin"); });
                 x.AddPolicy("TutorArea", policy => { policy.RequireRole("tutor"); });
+                x.AddPolicy("TeacherArea", policy => { policy.RequireRole("teacher"); });
+                x.AddPolicy("StudentArea", policy => { policy.RequireRole("student"); });
             });
 
             //добавляем сервисы для контроллеров и представлений (MVC)
@@ -83,6 +85,8 @@ namespace Online_courses_CourseP_
                 x.Conventions.Add(new UserAreaAuthorization("Owner", "OwnerArea"));
                 x.Conventions.Add(new UserAreaAuthorization("Admin", "AdminArea"));
                 x.Conventions.Add(new UserAreaAuthorization("Tutor", "TutorArea"));
+                x.Conventions.Add(new UserAreaAuthorization("Teacher", "TeacherArea"));
+                x.Conventions.Add(new UserAreaAuthorization("Student", "StudentArea"));
             }).AddSessionStateTempDataProvider();
 
             services.AddSession(options =>
@@ -121,6 +125,8 @@ namespace Online_courses_CourseP_
                 endpoints.MapControllerRoute("owner", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute("admin", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute("tutor", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("teacher", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("student", "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
             });

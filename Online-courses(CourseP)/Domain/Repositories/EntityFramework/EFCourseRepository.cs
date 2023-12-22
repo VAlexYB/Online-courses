@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using Online_courses_CourseP_.Domain.Repositories.Abstract;
 using Online_courses_CourseP_.Domain.SchoolEntities;
+using System.Data.Entity;
 
 namespace Online_courses_CourseP_.Domain.Repositories.EntityFramework
 {
@@ -13,7 +14,7 @@ namespace Online_courses_CourseP_.Domain.Repositories.EntityFramework
         }
         public IQueryable<Course> GetList()
         {
-            return context.Courses;
+            return context.Courses.Include(l=>l.Category).Include(l=>l.SkillLevel);
         }
         public Course GetByID(int id)
         {
