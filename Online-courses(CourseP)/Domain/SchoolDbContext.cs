@@ -101,12 +101,12 @@ public partial class SchoolDbContext : IdentityDbContext<IdentityUser, IdentityR
 
             entity.HasOne(d => d.Group).WithMany(p => p.AffiliationAgreements)
                 .HasForeignKey(d => d.GroupId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_AffiliationAgreements_GroupID");
 
             entity.HasOne(d => d.Student).WithMany(p => p.AffiliationAgreements)
                 .HasForeignKey(d => d.StudentId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_AffiliationAgreements_StudentID");
         });
 
@@ -159,24 +159,24 @@ public partial class SchoolDbContext : IdentityDbContext<IdentityUser, IdentityR
 
             entity.HasOne(d => d.Admin).WithMany(p => p.Courses)
                 .HasForeignKey(d => d.AdminId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_Courses_AdminID");
 
             entity.HasOne(d => d.Category).WithMany(p => p.Courses)
                 .HasForeignKey(d => d.CategoryId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_Courses_CategoryID");
 
             entity.HasOne(d => d.SkillLevel).WithMany(p => p.Courses)
                 .HasForeignKey(d => d.SkillLevelId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_Courses_SkillLevelID");
         });
 
         modelBuilder.Entity<Group>(entity =>
         {
             entity.Property(e => e.Id)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("ID");
             entity.Property(e => e.Beginning).HasColumnType("date");
             entity.Property(e => e.CourseId).HasColumnName("CourseID");
@@ -185,12 +185,12 @@ public partial class SchoolDbContext : IdentityDbContext<IdentityUser, IdentityR
 
             entity.HasOne(d => d.Course).WithMany(p => p.Groups)
                 .HasForeignKey(d => d.CourseId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Groups_CourseID");
 
             entity.HasOne(d => d.Tutor).WithMany(p => p.Groups)
                 .HasForeignKey(d => d.TutorId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_Groups_TutorID");
         });
 
@@ -207,22 +207,22 @@ public partial class SchoolDbContext : IdentityDbContext<IdentityUser, IdentityR
 
             entity.HasOne(d => d.Course).WithMany(p => p.Lessons)
                 .HasForeignKey(d => d.CourseId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Lessons_CourseID");
 
             entity.HasOne(d => d.Group).WithMany(p => p.Lessons)
                 .HasForeignKey(d => d.GroupId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.NoAction)
                 .HasConstraintName("FK_Lessons_GroupID");
 
             entity.HasOne(d => d.LessonType).WithMany(p => p.Lessons)
                 .HasForeignKey(d => d.LessonTypeId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_Lessons_LessonTypeID");
 
             entity.HasOne(d => d.Teacher).WithMany(p => p.Lessons)
                 .HasForeignKey(d => d.TeacherId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Restrict)
                 .HasConstraintName("FK_Lessons_TeacherID");
         });
 
@@ -264,19 +264,19 @@ public partial class SchoolDbContext : IdentityDbContext<IdentityUser, IdentityR
         modelBuilder.Entity<ResponsibilityAgreement>(entity =>
         {
             entity.Property(e => e.Id)
-                .ValueGeneratedNever()
+                .ValueGeneratedOnAdd()
                 .HasColumnName("ID");
             entity.Property(e => e.CourseId).HasColumnName("CourseID");
             entity.Property(e => e.TeacherId).HasColumnName("TeacherID");
 
             entity.HasOne(d => d.Course).WithMany(p => p.ResponsibilityAgreements)
                 .HasForeignKey(d => d.CourseId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_ResponsibilityAgreements_CourseID");
 
             entity.HasOne(d => d.Teacher).WithMany(p => p.ResponsibilityAgreements)
                 .HasForeignKey(d => d.TeacherId)
-                .OnDelete(DeleteBehavior.ClientSetNull)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_ResponsibilityAgreements_TeacherID");
         });
 

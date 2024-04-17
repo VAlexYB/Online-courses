@@ -6,6 +6,7 @@ namespace Online_courses_CourseP_.Areas.Admin.Models
 {
     public class CourseViewModel
     {
+        public int Id {  get; set; }
         [Required]
         [Display(Name = "Название")]
         public string Name { get; set; }
@@ -30,5 +31,11 @@ namespace Online_courses_CourseP_.Areas.Admin.Models
         public int SkillLevelId { get; set; }
 
         public List<SelectListItem> SkillLevels { get; set; }
+
+        public virtual ICollection<Group> Groups { get; set; }
+
+        public virtual ICollection<Lesson> Lessons { get; set; }
+
+        public virtual ICollection<ResponsibilityAgreement> ResponsibilityAgreements { get; set; }
     }
 }

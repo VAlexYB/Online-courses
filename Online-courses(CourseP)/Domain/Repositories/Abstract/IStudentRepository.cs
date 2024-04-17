@@ -1,4 +1,5 @@
-﻿using Online_courses_CourseP_.Domain.SchoolEntities;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Online_courses_CourseP_.Domain.SchoolEntities;
 
 namespace Online_courses_CourseP_.Domain.Repositories.Abstract
 {
@@ -9,5 +10,9 @@ namespace Online_courses_CourseP_.Domain.Repositories.Abstract
         public void Save(Student entity);
         public void Delete(string id);
         public bool IsExistStudent(string id);
+        public List<SelectListItem> GetSelectListItems();
+        public IQueryable<Student> GetPagedStudentsAsync(int page, int pageSize);
+        public bool AddToAffiliation(Student student, Group group);
+        public int GetCount();
     }
 }

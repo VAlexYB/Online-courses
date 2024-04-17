@@ -160,13 +160,13 @@ namespace Online_courses_CourseP_.Migrations
                         {
                             Id = "62C64EF0-D03A-4E61-97D3-D05AC21DAD14",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "217b808f-5268-404c-9f87-007917450238",
+                            ConcurrencyStamp = "58e492a0-bab8-4f36-86f8-679cc4e00792",
                             Email = "owner@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "OWNER@EMAIL.COM",
                             NormalizedUserName = "OWNER",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIIDMErKtU+SNECGDSBqqSyj+sVbHTjuQfScDIXvsGmBmz5pENVQ24AbLPwqpUDncQ==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEC9k1sXDi1ZUlMAzCziKuO/AOZqNd3iE7/aJRSyLolVCl6JeVwcQ/At40M/U7uwmYw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -385,8 +385,11 @@ namespace Online_courses_CourseP_.Migrations
             modelBuilder.Entity("Online_courses_CourseP_.Domain.SchoolEntities.Group", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int?>("Amount")
                         .HasColumnType("int");
@@ -509,8 +512,11 @@ namespace Online_courses_CourseP_.Migrations
             modelBuilder.Entity("Online_courses_CourseP_.Domain.SchoolEntities.ResponsibilityAgreement", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("CourseId")
                         .HasColumnType("int")
@@ -697,12 +703,14 @@ namespace Online_courses_CourseP_.Migrations
                     b.HasOne("Online_courses_CourseP_.Domain.SchoolEntities.Group", "Group")
                         .WithMany("AffiliationAgreements")
                         .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_AffiliationAgreements_GroupID");
 
                     b.HasOne("Online_courses_CourseP_.Domain.SchoolEntities.Student", "Student")
                         .WithMany("AffiliationAgreements")
                         .HasForeignKey("StudentId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_AffiliationAgreements_StudentID");
 
@@ -716,18 +724,21 @@ namespace Online_courses_CourseP_.Migrations
                     b.HasOne("Online_courses_CourseP_.Domain.SchoolEntities.Admin", "Admin")
                         .WithMany("Courses")
                         .HasForeignKey("AdminId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("FK_Courses_AdminID");
 
                     b.HasOne("Online_courses_CourseP_.Domain.SchoolEntities.Category", "Category")
                         .WithMany("Courses")
                         .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("FK_Courses_CategoryID");
 
                     b.HasOne("Online_courses_CourseP_.Domain.SchoolEntities.SkillLevel", "SkillLevel")
                         .WithMany("Courses")
                         .HasForeignKey("SkillLevelId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("FK_Courses_SkillLevelID");
 
@@ -743,12 +754,14 @@ namespace Online_courses_CourseP_.Migrations
                     b.HasOne("Online_courses_CourseP_.Domain.SchoolEntities.Course", "Course")
                         .WithMany("Groups")
                         .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_Groups_CourseID");
 
                     b.HasOne("Online_courses_CourseP_.Domain.SchoolEntities.Tutor", "Tutor")
                         .WithMany("Groups")
                         .HasForeignKey("TutorId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("FK_Groups_TutorID");
 
@@ -762,24 +775,28 @@ namespace Online_courses_CourseP_.Migrations
                     b.HasOne("Online_courses_CourseP_.Domain.SchoolEntities.Course", "Course")
                         .WithMany("Lessons")
                         .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_Lessons_CourseID");
 
                     b.HasOne("Online_courses_CourseP_.Domain.SchoolEntities.Group", "Group")
                         .WithMany("Lessons")
                         .HasForeignKey("GroupId")
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired()
                         .HasConstraintName("FK_Lessons_GroupID");
 
                     b.HasOne("Online_courses_CourseP_.Domain.SchoolEntities.LessonType", "LessonType")
                         .WithMany("Lessons")
                         .HasForeignKey("LessonTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("FK_Lessons_LessonTypeID");
 
                     b.HasOne("Online_courses_CourseP_.Domain.SchoolEntities.Teacher", "Teacher")
                         .WithMany("Lessons")
                         .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("FK_Lessons_TeacherID");
 
@@ -797,12 +814,14 @@ namespace Online_courses_CourseP_.Migrations
                     b.HasOne("Online_courses_CourseP_.Domain.SchoolEntities.Course", "Course")
                         .WithMany("ResponsibilityAgreements")
                         .HasForeignKey("CourseId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_ResponsibilityAgreements_CourseID");
 
                     b.HasOne("Online_courses_CourseP_.Domain.SchoolEntities.Teacher", "Teacher")
                         .WithMany("ResponsibilityAgreements")
                         .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_ResponsibilityAgreements_TeacherID");
 

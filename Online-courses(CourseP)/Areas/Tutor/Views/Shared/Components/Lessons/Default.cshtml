@@ -1,0 +1,45 @@
+﻿@model Tuple<IEnumerable<Lesson>, PageViewModel>
+
+@{
+    var lessons = Model.Item1;
+    var pageInfo = Model.Item2;
+}
+
+@foreach (var lesson in lessons)
+{
+    <div>
+        <a asp-area="Tutor" asp-controller="Lesson" asp-action="Edit" asp-route-id="@lesson.Id">редактировать</a>
+        |
+        @($"{lesson?.Course?.Name} {lesson?.LessonType?.LessonType1} {lesson?.Beginning}\n Преподаватель - {lesson?.Teacher?.Surname} {lesson?.Teacher?.Name} {lesson?.Teacher?.Patronymic}")
+
+    </div>
+}
+
+<div>
+    @if (pageInfo.HasPreviousPage)
+    {
+        <a href="javascript:void(0)" onclick="updateLessons(@(pageInfo.PageNumber - 1), @pageInfo.PageSize)">Назад</a>
+    }
+
+    @if (pageInfo.HasNextPage)
+    {
+        <a href="javascript:void(0)" onclick="updateLessons(@(pageInfo.PageNumber + 1), @pageInfo.PageSize)">Вперед</a>
+    }
+</div>
+
+<script>
+    function updateLessons(page, pageSize) {
+        $.ajax({
+            url: '@Url.Action("GetLessonsComponent", "Home")',
+            data: { page: page, pageSize: pageSize },
+            type: 'GET',
+            success: function (result) {
+                $('#lessonsComponent').html(result);
+            },
+            error: function (error) {
+                console.error('Ошибка AJAX:', error);
+            }
+        });
+    }
+</script>
+

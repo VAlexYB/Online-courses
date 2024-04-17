@@ -1,0 +1,52 @@
+﻿@model IQueryable<Lesson>
+@{
+    string strTitle = "Расписание";
+    ViewBag.Title = strTitle;
+}
+
+<div>
+    <h1>@strTitle</h1>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid black; 
+            text-align: center; 
+            padding: 5px; 
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+    <div>
+        @if (Model.Any())
+        {
+            <table>
+                <tr>
+                    <th>Время</th>
+                    <th>Курс</th>
+                    <th>Тип занятия</th>
+                    <th>Группа</th>
+                </tr>
+                @foreach (Lesson lesson in Model)
+                {
+                    <tr>
+                        <td>@lesson?.Beginning</td>
+                        <td>@lesson?.Course?.Name</td>
+                        <td>@lesson?.LessonType?.LessonType1</td>
+                        <td>@lesson?.GroupId группа</td>
+                    </tr>
+                }
+            </table>
+        }
+    </div>
+    <div class="div-box">
+        <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">
+            <input type="submit" value="Выйти" />
+        </form>
+    </div>
+</div>

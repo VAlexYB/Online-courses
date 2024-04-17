@@ -1,0 +1,49 @@
+﻿@model Tuple<IEnumerable<Teacher>, PageViewModel>
+
+@{
+    var teachers = Model.Item1;
+    var pageInfo = Model.Item2;
+}
+
+@foreach (var teacher in teachers)
+{
+    <div>
+        <a asp-area="Admin" asp-controller="Employee" asp-action="EditEmployee" asp-route-id="@teacher.Id" asp-route-role="Teacher">редактировать</a>
+        |
+        <form style="display: inline-block;" id="form-@teacher.Id" asp-area="Admin" asp-controller="Employee" asp-action="Delete" asp-route-role="Teacher" method="post">
+            <input type="hidden" name="id" value="@teacher.Id">
+            <a href="#" onclick="document.getElementById('form-@teacher.Id').submit();">удалить</a>
+        </form>
+        |
+        @($"{teacher.Name} {teacher.Surname}")
+
+    </div>
+}
+
+<div>
+    @if (pageInfo.HasPreviousPage)
+    {
+        <a href="javascript:void(0)" onclick="updateTeachers(@(pageInfo.PageNumber - 1), @pageInfo.PageSize)">Назад</a>
+    }
+
+    @if (pageInfo.HasNextPage)
+    {
+        <a href="javascript:void(0)" onclick="updateTeachers(@(pageInfo.PageNumber + 1), @pageInfo.PageSize)">Вперед</a>
+    }
+</div>
+
+<script>
+    function updateTeachers(page, pageSize) {
+        $.ajax({
+            url: '@Url.Action("GetTeachersComponent", "Home")',
+            data: { page: page, pageSize: pageSize },
+            type: 'GET',
+            success: function (result) {
+                $('#teachersComponent').html(result);
+            },
+            error: function (error) {
+                console.error('Ошибка AJAX:', error);
+            }
+        });
+    }
+</script>

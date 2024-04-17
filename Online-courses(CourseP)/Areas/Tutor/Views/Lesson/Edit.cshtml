@@ -1,0 +1,46 @@
+﻿@using Online_courses_CourseP_.Areas.Tutor.Models
+@model LessonViewModel
+@{
+    string strTitle = "Редактировать запись";
+    ViewBag.Title = strTitle;
+}
+
+<div>
+    <h2>@strTitle</h2>
+    <div>
+        <form asp-area="Tutor" asp-controller="Lesson" asp-action="Edit" method="post" enctype="multipart/form-data">
+            <input asp-for="Id" type="hidden" />
+            <div class="form-group">
+                <label asp-for="Beginning">Начало</label>
+                <input asp-for="Beginning" class="form-control" />
+                <span asp-validation-for="Beginning" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Duration">Продолжительность</label>
+                <input asp-for="Duration" class="form-control" />
+                <span asp-validation-for="Duration" class="text-danger"></span>
+            </div>
+
+            <div class="div-box">
+                <label asp-for="CourseId">Id курса</label>
+                @Html.DropDownListFor(m => m.CourseId, Model.Courses, "Выберите курс", new { @class = "form-control" })
+            </div>
+            <div class="div-box">
+                <label asp-for="GroupId">Id группы</label>
+                @Html.DropDownListFor(m => m.GroupId, Model.Groups, "Выберите группу", new { @class = "form-control" })
+            </div>
+            <div class="div-box">
+                <label asp-for="TeacherId">Id учителя</label>
+                @Html.DropDownListFor(m => m.TeacherId, Model.Teachers, "Выберите учителя", new { @class = "form-control" })
+            </div>
+            <div class="div-box">
+                <label asp-for="LessonTypeId">Id типа занятия</label>
+                @Html.DropDownListFor(m => m.LessonTypeId, Model.LessonTypes, "Выберите тип", new { @class = "form-control" })
+            </div>
+
+            <button type="submit" class="btn btn-primary">Сохранить</button>
+        </form>
+
+    </div>
+</div>
+
